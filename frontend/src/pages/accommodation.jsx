@@ -14,6 +14,7 @@ import {
     TableHead,
     TableRow,
 } from "@mui/material";
+import { Container } from "@mui/system";
 
 export default function Accommondation() {
     const { id } = useParams();
@@ -44,73 +45,55 @@ export default function Accommondation() {
 
     return (
         <div>
-            <Header/>
-            <Typography sx={{ borderBottom: "1px solid gray", pb: 1, my: 4, pl:2 }}>
-                Patalpa
-            </Typography>
-            { data === null || data.length === 0 ? (
-            <Typography sx={{ textAlign: "center" }}>Wow, so empty!</Typography>
-            ) : (
-            <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" }, gap: 3 }}>
-                {console.log(data)}
-            <List>
-                <ListItem>Pavadinimas</ListItem>
-                <ListItem>Atsakingas asmuo</ListItem>
-                <ListItem>Atsakingo asmens kontaktas</ListItem>
-                <ListItem>Kompiuterių kiekis</ListItem>
-                <ListItem>Energijos riba per žmogų</ListItem>
-                <ListItem><Button style={{background:"#1DA1F2", color:"white"}} onClick={() => navigate(`/accommodation/update/${id}`)}>
-                    Redaguoti
-                </Button></ListItem>
-                <ListItem><Button style={{background:"#1DA1F2", color:"white"}} onClick={() => navigate(`/accommodation/schedule/${id}`)}>
-                    Patalpos tvarkaraštis
-                </Button></ListItem>
-            </List>
-            <List>
-                <ListItem>{data[0].pavadinimas}</ListItem>
-                <ListItem>{data[0].atsakingo_asmens_vardas} {data[0].atsakingo_asmens_pavarde}</ListItem>
-                <ListItem>{data[0].atsakingo_asmens_kontaktas}</ListItem>
-                <ListItem>{data[0].kompiuteriu_kiekis}</ListItem>
-                <ListItem>{data[0].energijos_riba_per_zmogu}</ListItem>
-            </List>
-            
-            </Box>)}
-            <Box sx={{ flexGrow: 1, p: 3 }}>
-            { data1 === null || data1.length === 0 ? (
-                <Typography sx={{ textAlign: "center" }}>Wow, so empty!</Typography>
-            ) : (
-                    <Table>
-                        <TableHead>
-                            <TableRow>
-                                <TableCell>
-                                    id
-                                </TableCell>
-                                <TableCell>
-                                    prietaiso pavadinimas
-                                </TableCell>
-                                <TableCell>
-                                    IP adresas
-                                </TableCell>
-                                <TableCell/>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {data1.map((row) => (
+            <Header />
+            <Container>
+                <Typography className="page-title" sx={{ borderBottom: "1px solid gray", pb: 1, my: 4, pl: 2 }}>
+                    Patalpa
+                </Typography>
+                {data === null || data.length === 0 ? (
+                    <Typography sx={{ textAlign: "center" }}>Wow, so empty!</Typography>
+                ) : (
+                    <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" }, gap: 3 }}>
+                        {console.log(data)}
+                        <List>
+                            <ListItem>Pavadinimas</ListItem>
+                            <ListItem>Atsakingas asmuo</ListItem>
+                            <ListItem>Atsakingo asmens kontaktas</ListItem>
+                            <ListItem>Kompiuterių kiekis</ListItem>
+                            <ListItem>Energijos riba per žmogų</ListItem>
+                            <ListItem><Button style={{ background: "#1DA1F2", color: "white" }} onClick={() => navigate(`/accommodation/update/${id}`)}>
+                                Redaguoti
+                            </Button></ListItem>
+                            <ListItem><Button style={{ background: "#1DA1F2", color: "white" }} onClick={() => navigate(`/accommodation/schedule/${id}`)}>
+                                Patalpos tvarkaraštis
+                            </Button></ListItem>
+                        </List>
+                        <List>
+                            <ListItem>{data[0].pavadinimas}</ListItem>
+                            <ListItem>{data[0].atsakingo_asmens_vardas} {data[0].atsakingo_asmens_pavarde}</ListItem>
+                            <ListItem>{data[0].atsakingo_asmens_kontaktas}</ListItem>
+                            <ListItem>{data[0].kompiuteriu_kiekis}</ListItem>
+                            <ListItem>{data[0].energijos_riba_per_zmogu}</ListItem>
+                        </List>
+
+                    </Box>)}
+                <Box sx={{ flexGrow: 1, p: 3 }}>
+                    {data1 === null || data1.length === 0 ? (
+                        <Typography sx={{ textAlign: "center" }}>Wow, so empty!</Typography>
+                    ) : (
+                        <Table>
+                            <TableHead>
                                 <TableRow>
-                                    <TableCell component="th" scope="row">
-                                    {row.id}
+                                    <TableCell>
+                                        id
                                     </TableCell>
                                     <TableCell>
-                                    {row.name}
+                                        prietaiso pavadinimas
                                     </TableCell>
                                     <TableCell>
-                                    {row.ip_address}
+                                        IP adresas
                                     </TableCell>
-                                    <TableCell>
-                                    <Button style={{background:"#1DA1F2", color:"white"}}>
-                                        Išjungti 
-                                    </Button>
-                                    </TableCell>
+                                    <TableCell />
                                 </TableRow>
                             </TableHead>
                             <TableBody>
@@ -211,4 +194,4 @@ export default function Accommondation() {
             </Container>
         </div>
     );
-  }
+}
