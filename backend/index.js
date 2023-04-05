@@ -158,7 +158,7 @@ app.get('/getDayGraph', (req, res) => {
 app.get('/getAllAccommendation', (req, res) => {
     pool.getConnection((err, connection) => {
         if (err) throw err
-        connection.query('SELECT *, (select count(*) from ispejimas where patalpa.id = ispejimas.id_patalpa AND seen = 0) AS neperziureti_ispejimai FROM patalpa', (err, rows) => {
+        connection.query('SELECT * FROM patalpa', (err, rows) => {
             connection.release() // return the connection to pool
             if (!err) {
                 res.send(rows)
