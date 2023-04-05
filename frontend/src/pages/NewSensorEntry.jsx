@@ -1,24 +1,27 @@
 //import { Box, TextField, Button } from "@mui/material";
+import { Container } from "@mui/material";
 import Header from "../components/header";
 
 export default function SensorForm() {
 
   return (
     <div>
-      <Header/>
-      <form action="/newSensorEntry" method="POST" enctype="application/x-www-form-urlencoded">
+      <Header />
+      <Container>
+        <form action="/newSensorEntry" method="POST" enctype="application/x-www-form-urlencoded">
 
-        <label for="sensor_id">Sensor ID:</label>
-        <input type="number" id="sensor_id" name="sensor_id"></input><br></br>
+          <label for="sensor_id">Sensor ID:</label>
+          <input type="number" id="sensor_id" name="sensor_id"></input><br></br>
 
-        <label for="power">Power:</label>
-        <input type="number" id="power" name="power"></input><br></br>
+          <label for="power">Power:</label>
+          <input type="number" id="power" name="power"></input><br></br>
 
-        <label for="useage">Useage:</label>
-        <input type="text" id="useage" name="useage"></input><br></br>
+          <label for="useage">Useage:</label>
+          <input type="text" id="useage" name="useage"></input><br></br>
 
-        <input type="submit" value="Submit"/>
-      </form>
+          <input type="submit" value="Submit" />
+        </form>
+      </Container>
       {/* <Box
         component="form"
         sx={{

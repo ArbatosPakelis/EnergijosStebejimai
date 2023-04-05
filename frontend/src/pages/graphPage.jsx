@@ -5,7 +5,7 @@ import Header from "../components/header";
 import { Typography, Box, TextField } from "@mui/material";
 
 export default function GraphPage() {
-    const [data, setData] = useState(null);
+  const [data, setData] = useState(null);
 
     useEffect(() => {
         const getData = async () => {
@@ -34,3 +34,4 @@ export default function GraphPage() {
         </div>
     );
   }
+

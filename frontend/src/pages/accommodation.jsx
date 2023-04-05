@@ -14,6 +14,7 @@ import {
     TableHead,
     TableRow,
 } from "@mui/material";
+import { Container } from "@mui/system";
 
 export default function Accommondation() {
     const { id } = useParams();
@@ -105,6 +106,7 @@ export default function Accommondation() {
                                     <TableCell>
                                         {row.ip_address}
                                     </TableCell>
+                                    <TableCell />
                                 </TableRow>
                             ))}
                         </TableBody>
@@ -182,6 +184,36 @@ export default function Accommondation() {
                     </Table>
                 )}
             </Box>
+                            </TableHead>
+                            <TableBody>
+                                {data1.map((row) => (
+                                    <TableRow>
+                                        <TableCell component="th" scope="row">
+                                            {row.id}
+                                        </TableCell>
+                                        <TableCell>
+                                            {row.name}
+                                        </TableCell>
+                                        <TableCell>
+                                            {row.ip_address}
+                                        </TableCell>
+                                        <TableCell>
+                                            <Button style={{ background: "#1DA1F2", color: "white" }}>
+                                                Išjungti
+                                            </Button>
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    )}
+                </Box>
+                <center>
+                    <Button style={{ background: "#1DA1F2", color: "white" }}>
+                        Ištrinti įspėjimą
+                    </Button>
+                </center>
+            </Container>
         </div>
     );
 }

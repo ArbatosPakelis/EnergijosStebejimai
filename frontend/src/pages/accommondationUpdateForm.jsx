@@ -1,6 +1,6 @@
 import Header from "../components/header";
 import { useEffect, useState } from "react";
-import { Button, Typography } from "@mui/material";
+import { Button, Container, Typography } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import { Box } from "@mui/system";
 import { useParams } from "react-router-dom";
@@ -40,7 +40,7 @@ export default function AccommondationUpdateForm() {
             atsakingo_asmens_kontaktas: data.get('atsakingo_asmens_kontaktas'),
             kompiuteriu_kiekis: data.get('kompiuteriu_kiekis'),
             energijos_riba_per_zmogu: data.get('energijos_riba_per_zmogu')
-          });
+        });
         //console.log(accommondationData);
         axios.post(`http://127.0.0.1:5000/updateAccommendation`, accommondationData).then(response => {
             // console.log(response);
@@ -54,33 +54,35 @@ export default function AccommondationUpdateForm() {
     return (
         <div>
             <Header />
-            <Typography sx={{ borderBottom: "1px solid gray", pb: 1, my: 4, pl: 2 }}>
-                Patalpos redagavimo forma
-            </Typography>
-            {data === null || data.length === 0 ? (
-                <Typography sx={{ textAlign: "center" }}>Wow, so empty!</Typography>
-            ) : (
-                <Box sx={{ pl: 3 }}
-                    component="form"
-                    onSubmit={handleSubmit}>
-                    <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" }, gap: 3 }}>
-                        <TextField sx={{ py: 5 }} InputLabelProps={{ shrink: true }} id="pavadinimas" name="pavadinimas" label="Pavadinimas" variant="outlined" type="text" defaultValue={data[0].pavadinimas} /><br />
+            <Container>
+                <Typography className="page-title" sx={{ borderBottom: "1px solid gray", pb: 1, my: 4, pl: 2 }}>
+                    Patalpos redagavimo forma
+                </Typography>
+                {data === null || data.length === 0 ? (
+                    <Typography sx={{ textAlign: "center" }}>Wow, so empty!</Typography>
+                ) : (
+                    <Box sx={{ pl: 3 }}
+                        component="form"
+                        onSubmit={handleSubmit}>
+                        <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" }, gap: 3 }}>
+                            <TextField sx={{ my: 5 }} InputLabelProps={{ shrink: true }} id="pavadinimas" name="pavadinimas" label="Pavadinimas" variant="outlined" type="text" defaultValue={data[0].pavadinimas} /><br />
 
-                        <TextField sx={{ py: 5 }} InputLabelProps={{ shrink: true }} id="atsakingo_asmens_vardas" name="atsakingo_asmens_vardas" label="Atsakingo asmens vardas" variant="outlined" type="text" defaultValue={data[0].atsakingo_asmens_vardas} /><br />
+                            <TextField sx={{ my: 5 }} InputLabelProps={{ shrink: true }} id="atsakingo_asmens_vardas" name="atsakingo_asmens_vardas" label="Atsakingo asmens vardas" variant="outlined" type="text" defaultValue={data[0].atsakingo_asmens_vardas} /><br />
 
-                        <TextField sx={{ py: 5 }} InputLabelProps={{ shrink: true }} id="atsakingo_asmens_pavarde" name="atsakingo_asmens_pavarde" label="Atsakingo asmens pavardė" variant="outlined" type="text" defaultValue={data[0].atsakingo_asmens_pavarde} /><br />
+                            <TextField sx={{ my: 5 }} InputLabelProps={{ shrink: true }} id="atsakingo_asmens_pavarde" name="atsakingo_asmens_pavarde" label="Atsakingo asmens pavardė" variant="outlined" type="text" defaultValue={data[0].atsakingo_asmens_pavarde} /><br />
+                        </Box>
+                        <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" }, gap: 3 }}>
+                            <TextField sx={{ my: 5 }} InputLabelProps={{ shrink: true }} id="atsakingo_asmens_kontaktas" name="atsakingo_asmens_kontaktas" label="Atsakingo asmens kontaktas" variant="outlined" type="text" defaultValue={data[0].atsakingo_asmens_kontaktas} /><br />
+
+                            <TextField sx={{ my: 5 }} id="kompiuteriu_kiekis" name="kompiuteriu_kiekis" label="Kompiuterių kiekis" variant="outlined" type="number" defaultValue={data[0].kompiuteriu_kiekis} /><br />
+
+                            <TextField sx={{ my: 5 }} id="energijos_riba_per_zmogu" name="energijos_riba_per_zmogu" label="Energijos riba per žmogų" variant="outlined" type="number" defaultValue={data[0].energijos_riba_per_zmogu} /><br />
+                        </Box>
+
+                        <Button style={{ background: "#1DA1F2", color: "white" }} type="submit">Pateikti</Button>
                     </Box>
-                    <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" }, gap: 3 }}>
-                        <TextField sx={{ py: 5 }} InputLabelProps={{ shrink: true }} id="atsakingo_asmens_kontaktas" name="atsakingo_asmens_kontaktas" label="Atsakingo asmens kontaktas" variant="outlined" type="text" defaultValue={data[0].atsakingo_asmens_kontaktas} /><br />
-
-                        <TextField sx={{ py: 5 }} id="kompiuteriu_kiekis" name="kompiuteriu_kiekis" label="Kompiuterių kiekis" variant="outlined" type="number" defaultValue={data[0].kompiuteriu_kiekis} /><br />
-
-                        <TextField sx={{ py: 5 }} id="energijos_riba_per_zmogu" name="energijos_riba_per_zmogu" label="Energijos riba per žmogų" variant="outlined" type="number" defaultValue={data[0].energijos_riba_per_zmogu} /><br />
-                    </Box>
-
-                    <Button style={{ background: "#1DA1F2", color: "white" }} type="submit">Pateikti</Button>
-                </Box>
                 )}
+            </Container>
         </div>
     );
 }
