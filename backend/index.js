@@ -393,6 +393,23 @@ app.get('/getAllDays', (req, res) => {
     })
 });
 
+//Get all dienu laikus
+app.get('/getAllDaySchedule', (req, res) => {
+    pool.getConnection((err, connection) => {
+        if (err) throw err
+        connection.query('SELECT * FROM dienos_laikas INNER JOIN diena on diena.id = dienos_laikas.id_diena INNER JOIN uzimtumo_laikas ON dienos_laikas.id_uzimtumo_laikas = uzimtumo_laikas.id', (err, rows) => {
+            connection.release() // return the connection to pool
+            if (!err) {
+                res.send(rows)
+            } else {
+                console.log(err)
+            }
+
+            console.log('data: \n', rows)
+        })
+    })
+});
+
 //Get one entry from diena by id
 app.get('/getDay/:id', (req, res) => {
     pool.getConnection((err, connection) => {
@@ -648,6 +665,22 @@ app.get('/weeks', (req, res) => {
             return res.status(500).send('Internal Server Error');
         }
         connection.query('SELECT * FROM savaite', (error, rows) => {
+            connection.release();
+            if (error){
+                return res.status(500).send('Internal Server Error');
+            }
+            res.send(rows);
+        });
+    })
+});
+
+//GET all savaites tvarkarastis
+app.get('/getweekSchedule', (req, res) => {
+    pool.getConnection((err, connection) => {
+        if (err){
+            return res.status(500).send('Internal Server Error');
+        }
+        connection.query('SELECT * FROM savaites_diena INNER JOIN diena on diena.id = savaites_diena.id_diena', (error, rows) => {
             connection.release();
             if (error){
                 return res.status(500).send('Internal Server Error');

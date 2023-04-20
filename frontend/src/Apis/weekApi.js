@@ -4,6 +4,9 @@ export default class weekApi extends Api {
     getAllWeeks = () => {
         return super.init().get(`weeks`);
     }
+    getWeekSchedule = () => {
+        return super.init().get(`getweekSchedule`);
+    }
 
     getOneWeek = (id) => {
         return super.init().get(`weeks/${id}`);
