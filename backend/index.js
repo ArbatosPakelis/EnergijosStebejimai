@@ -51,12 +51,14 @@ const transporter = nodemailer.createTransport({
     },
 });
 
-function sendEmail(result) {
+let email = 'expressnode6@outlook.com'
+
+function sendEmail(result, subject) {
     // Define the email options
     const mailOptions = {
       from: 'expressnode6@outlook.com',
-      to: 'expressnode6@outlook.com',
-      subject: 'Warnings during the last hour',
+      to: email,
+      subject: subject,
       text: result,
     };
     
@@ -90,7 +92,12 @@ const timeZone = 'Europe/Bucharest';
     
     pool.getConnection((err, connection) => {
         if (err) throw err
-        let query = `SELECT count(*) as amount FROM ispejimas WHERE data >= DATE_FORMAT('${formattedOneHourAgo}', '%Y-%m-%d %H:%i:%s') AND data <= DATE_FORMAT('${formattedCurrentTime}', '%Y-%m-%d %H:%i:%s')`;
+        // let query = `SELECT count(*) as amount FROM ispejimas WHERE data >= DATE_FORMAT('${formattedOneHourAgo}', '%Y-%m-%d %H:%i:%s') AND data <= DATE_FORMAT('${formattedCurrentTime}', '%Y-%m-%d %H:%i:%s')`;
+        let query = `SELECT TIME_FORMAT(ispejimas.data, "%H:%i") as laikas, ispejimas.galios_virsyjimas, patalpa.pavadinimas FROM ispejimas 
+            RIGHT JOIN patalpa ON patalpa.id = ispejimas.id_patalpa 
+            WHERE ispejimas.data >= DATE_FORMAT('${formattedOneHourAgo}', '%Y-%m-%d %H:%i:%s') 
+            AND ispejimas.data <= DATE_FORMAT('${formattedCurrentTime}', '%Y-%m-%d %H:%i:%s')`;
+
         connection.query(query, (error, results) => {
             if (error) {
                 console.log('Error executing query:', error);
@@ -98,13 +105,26 @@ const timeZone = 'Europe/Bucharest';
                 return;
               }
 
-            let message = `Amount of warnings during the last hour:\n\n`;
-            const count = results[0].amount;
-            message += `Count: ${count}`;
-            
+            // let message = `Amount of warnings during the last hour:\n\n`;
+            // const count = results[0].amount;
+            const count = results.length
+            let message = `Įspėjimų kiekis: ${count}\n\n`;
+            // message += `Count: ${count}`
+
+            let subject = `${currentTime.format('YYYY-MM-DD')} patalpų įspėjimai ${currentTime.format('HH:mm')} – ${oneHourAgo.format('HH:mm')} laikotarpiu`;
+
+            if (count > 0) {
+                message += 'Patalpa' + ' '.repeat(20) + 'Įspėjimo laikas' + ' '.repeat(4) + 'Viršyta reikšmė\n';
+
+                for (let i = 0; i < count; i++) {
+                    message += results[i].pavadinimas + ' '.repeat(27-results[i].pavadinimas.length) + results[i].laikas 
+                        + ' '.repeat(19-results[i].laikas.length) + results[i].galios_virsyjimas + '\n';
+                  }
+            }
+
             // Send the email with the customized message
             if( count > 0){
-                sendEmail(message);
+                sendEmail(message, subject);
             }
             else{
                 console.log(message);
@@ -1373,6 +1393,17 @@ app.post('/warningSeen', function(req, res) {
         })
 
     })
+});
+
+//GET current used email to send warnings
+app.get('/email', (req, res) => {
+    res.send(email);
+});
+
+// Update email address
+app.put('/email', (req, res) => {
+    email = req.body.email;
+    res.status(200).json({email: email})
 });
 
 

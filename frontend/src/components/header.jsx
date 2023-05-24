@@ -88,6 +88,7 @@ export default function Header() {
                         {/* <Button href="/data" startIcon={<TableChartIcon />} style={{ color: 'white', padding: 10, pl: 5 }}>Sensoriaus Duomenys</Button> */}
                         <Button href="/graph" startIcon={<EqualizerIcon />} style={{ color: 'white', padding: 10, pl: 5 }}>Diagramos</Button>
                         <Button href="/accommodation" style={{ color: 'white', padding: 10, pl: 5 }}>Patalpos</Button>
+                        <Button href="/changeMail" style={{ color: 'white', padding: 10, pl: 5 }}>Pakeisti pranešimų el. paštą</Button>
                         {/* <Button href="/days" style={{ color: 'white', pl: 5 }}>Dienos</Button>
                         <Button href="/weeks" style={{ color: 'white', pl: 5 }}>Savaitės</Button> */}
                     </Box>

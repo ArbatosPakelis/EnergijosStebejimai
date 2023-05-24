@@ -23,6 +23,7 @@ import WeeksList from './pages/weeksList'
 import SensorsList from './pages/sensorsList'
 import SensorForm1 from './pages/sensorForm'
 import TimeView from './pages/timeView'
+import EmailForm from './pages/emailForm'
 
 
 function App() {
@@ -88,7 +89,8 @@ function App() {
         <Route path="updateDay">
           <Route path=":id" element={<DayUpdateForm />} />
         </Route>
-        <Route exact path="/timeForm" element={<TimeForm />} />        
+        <Route exact path="/timeForm" element={<TimeForm />} />
+        <Route exact path="/changeMail" element={<EmailForm />} />        
         <Route path="*" element={<p>Page Not Found</p>}></Route>
       </Routes>
     </>
