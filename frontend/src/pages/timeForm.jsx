@@ -63,7 +63,7 @@ export default function TimeForm() {
           ))}
         </Select><br/>  */}
 
-            <Button type="submit">Submit</Button>
+            <Button type="submit">Pateikti</Button>
           </Box>
         </Container>
       </Container>

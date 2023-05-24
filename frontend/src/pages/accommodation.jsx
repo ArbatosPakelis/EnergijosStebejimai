@@ -19,6 +19,7 @@ import {
 import { Container } from "@mui/system";
 import DevicesTable from "../components/accommodationDevicesTable";
 import WarningTable from "../components/accommodationWarningTable";
+import SeenWarningTable from "../components/accommodationSeenWarningTable";
 import axios from "axios";
 
 export default function Accommondation() {
@@ -26,10 +27,12 @@ export default function Accommondation() {
     const [data, setData] = useState(null);
     const [data1, setData1] = useState(null);
     const [data2, setData2] = useState(null);
+    const [data3, setData3] = useState(null);
     const [time, setTime] = useState(null);
     const [occupiedTimes, setOccupiedTimes] = useState(null);
     const [entries, setEntries] = useState([]);
     const navigate = useNavigate();
+    const [isTableVisible, setIsTableVisible] = useState(false);
     const chartRef = useRef();
     const [disabledPower, setDisabledPower] = React.useState(true);
     const [disabledUsage, setDisabledUsage] = React.useState(false);
@@ -37,6 +40,9 @@ export default function Accommondation() {
 
     let dayTemp = 0;
 
+    const handleButtonClick = () => {
+        setIsTableVisible(!isTableVisible); // Toggle the value of isTableVisible
+      };
     useEffect(() => {
         const getData = async () => {
             try {
@@ -46,9 +52,11 @@ export default function Accommondation() {
                 const response2 = await repApi.getAllWarnings(id);
                 const response3 = await repApi.getAllTime();
                 const response4 = await repApi.getAccommodationTimes(id);
+                const response5 = await repApi.getSeenWarnings(id);
                 setData(response.data);
                 setData1(response1.data);
                 setData2(response2.data);
+                setData3(response5.data);
                 setTime(response3.data);
                 setOccupiedTimes(response4.data);
             } catch (err) {
@@ -94,6 +102,8 @@ export default function Accommondation() {
             );
         }
     }
+
+    
 
     function checkingPersonalDevices(check) {
         if (check === 0) {
@@ -156,7 +166,7 @@ export default function Accommondation() {
             <Header />
             <Container>
                 <Typography className="page-title" sx={{ borderBottom: "1px solid gray", pb: 1, my: 4, pl: 2 }}>
-                    Patalpa
+                    Patalpos informacija
                 </Typography>
                 {data === null || data.length === 0 ? (
                     <Typography sx={{ textAlign: "center" }}>Wow, so empty!</Typography>
@@ -207,6 +217,11 @@ export default function Accommondation() {
                 {/* <DevicesTable data1={data1} navigate={navigate} setData1={setData1} /> */}
                 
                 <WarningTable data={data2}/>
+
+                <Button style={{ background: "#1DA1F2", color: "white" }} onClick={handleButtonClick}>
+                                Peržiūrėti įspėjimai
+                            </Button>
+                {isTableVisible && <SeenWarningTable data={data3} />}
 
                 <Box sx={{ flexGrow: 1, p: 3 }}>
 

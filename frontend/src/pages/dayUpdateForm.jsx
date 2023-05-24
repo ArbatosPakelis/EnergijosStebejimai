@@ -88,7 +88,7 @@ export default function DayUpdateForm() {
           >
             <TextField required fullWidth id="savaites_diena" name="savaites_diena" label="Savaites diena:" variant="outlined" type="text" defaultValue={data[0].savaites_diena} /><br />
 
-            <Button type="submit">Submit</Button>
+            <Button type="submit">Pateikti</Button>
           </Box>
         )}
       </Container>

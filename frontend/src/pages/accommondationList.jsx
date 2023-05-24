@@ -21,8 +21,8 @@ export default function AccommondationList() {
           Patalpos
         </Typography>
         <Box sx={{ mb: 1 }} display="flex" justifyContent="flex-end" >
-          <Button style={{ background: "#1DA1F2", color: "white" }}
-           onClick={() => navigate(`/accommodation/new`)}>Nauja patalpa</Button>
+          <Button style={{ background: "#1DA1F2", color: "white", position: "absolute", top:"150px"}}
+           onClick={() => navigate(`/accommodation/new`)}>Pridėti naują patalpą</Button>
         </Box>
         <div className="middle-section">
           <AccommondationGrid />

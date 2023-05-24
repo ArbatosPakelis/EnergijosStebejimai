@@ -63,7 +63,7 @@ export default function Header() {
                     </IconButton>
                     <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" }, gap: 3 }}>
                         <Button style={{ color: 'white', px: 5 }} href="/">
-                            <Typography sx={{ pr: 3 }} >Energijos stebejimas</Typography>
+                            <Typography sx={{ pr: 3 }} >Energijos stebėjimas</Typography>
                         </Button>
                         {/* <React.Fragment>
                             <Button onClick={handleMenuClick} style={{ color: 'white', width: 60, padding: 10, pl: 5 }}>

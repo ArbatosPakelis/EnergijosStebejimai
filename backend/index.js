@@ -1337,6 +1337,22 @@ app.get('/getAllWarnings/:id', (req, res) => {
     })
 });
 
+//GET all perziureti ispejimas of acommodation
+app.get('/getSeenWarnings/:id', (req, res) => {
+    pool.getConnection((err, connection) => {
+        if (err){
+            return res.status(500).send('Internal Server Error');
+        }
+        connection.query('SELECT * FROM ispejimas WHERE id_patalpa = ? AND seen=1', [req.params.id], (error, rows) => {
+            connection.release();
+            if (error){
+                return res.status(500).send('Internal Server Error');
+            }
+            res.send(rows);
+        });
+    })
+});
+
 app.post('/warningSeen', function(req, res) {
 
     pool.getConnection((err, connection) => {

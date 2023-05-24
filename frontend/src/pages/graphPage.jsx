@@ -160,7 +160,7 @@ export default function GraphPage() {
               <TextField required fullWidth InputLabelProps={{ shrink: true }} id="date" name="date" label="Data:" variant="outlined" type="date" />
             </Grid>
           </Grid>
-          <Button type="submit">Submit</Button>
+          <Button type="submit">Pateikti</Button>
         </Box>
 
         <Graph ref={chartRef} data={data} scale={"hour"} />

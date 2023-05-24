@@ -64,7 +64,7 @@ export default function AccommondationSchedule() {
                                     Laikas iki
                                 </TableCell>
                                 <TableCell>
-                                    Asmenu skaicius
+                                    Asmenų skaičius
                                 </TableCell>
                             </TableRow>
                         </TableHead>
