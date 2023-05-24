@@ -10,7 +10,8 @@ import React, { useRef } from 'react';
 export default function GraphPage() {
   const [data, setData] = useState([]);
   const [data1, setData1] = useState([]);
-  const types = ['Metai', 'Menuo', 'Diena'];
+  const timeTypes = ['Metai', 'Menuo', 'Diena'];
+  const dataTypes = ["Galia", "Sanaudos"];
   const chartRef = useRef();
 
   useEffect(() => {
@@ -43,36 +44,54 @@ export default function GraphPage() {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    const type = data.get('type');
+
+    const dataType = data.get('dataType');
+    const timeType = data.get('timeType');
     const accom = data.get('accomodation');
     const date = data.get('date');
-    console.log(type);
+
+    console.log(timeType);
+    console.log(dataType);
     console.log(date);
     console.log(accom);
-    getEntriesByDate(date, accom, type);
 
-    //postDay(roomId, selectedTimes);
+    getEntriesByDate(date, accom, timeType, dataType);
   };
 
 
 
-  async function getEntriesByDate(date, accom, type) {
+  async function getEntriesByDate(date, accom, timeType, dataType) {
     const grphApi = new graphApi();
     let response;
-    if (type === 'Metai') {
+    if (timeType === 'Metai') {
       response = await grphApi.getMonthGraph(accom, date);
-      chartRef.current.updateData(response.data, 'Mėnuo');
+      if (dataType === "Galia") {
+        chartRef.current.updateData(response.data, 'Mėnuo', "Power");
+      } 
+      else if (dataType === "Sanaudos") {
+        chartRef.current.updateData(response.data, 'Mėnuo', "Usage");
+      }
     }
-    else if (type === 'Menuo') {
+    else if (timeType === 'Menuo') {
       response = await grphApi.getDayGraph(accom, date);
-      chartRef.current.updateData(response.data, 'Diena');
+      if (dataType === "Galia") {
+        chartRef.current.updateData(response.data, 'Diena', "Power");
+      } 
+      else if (dataType === "Sanaudos") {
+        chartRef.current.updateData(response.data, 'Diena', "Usage");
+      }
     }
-    else if (type === 'Diena') {
+    else if (timeType === 'Diena') {
       response = await grphApi.getHourGraph(accom, date);
-      chartRef.current.updateData(response.data, 'Valanda');
+      if (dataType === "Galia") {
+        chartRef.current.updateData(response.data, 'Valanda', "Power");
+      } 
+      else if (dataType === "Sanaudos") {
+        chartRef.current.updateData(response.data, 'Valanda', "Usage");
+      }
     }
-    console.log(response.data);
-    
+    //console.log(response.data);
+
   }
 
   return (
@@ -88,15 +107,32 @@ export default function GraphPage() {
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
-                name="type"
+                name="dataType"
                 required
                 fullWidth
-                id="type"
+                id="dataType"
+                label="Informaijos tipas"
+                select
+                defaultValue=""
+              >
+                {dataTypes.map((type) => (
+                  <MenuItem key={type} value={type}>
+                    {type}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                name="timeType"
+                required
+                fullWidth
+                id="timeType"
                 label="Grafo tipas"
                 select
                 defaultValue=""
               >
-                {types.map((type) => (
+                {timeTypes.map((type) => (
                   <MenuItem key={type} value={type}>
                     {type}
                   </MenuItem>
@@ -127,13 +163,7 @@ export default function GraphPage() {
           <Button type="submit">Submit</Button>
         </Box>
 
-
-        {/* <Box sx={{ width: 1000, margin: "0 auto", mb: 4 }}><canvas id="power" aria-label="Hello ARIA World" role="img"></canvas></Box> */}
         <Graph ref={chartRef} data={data} scale={"hour"} />
-        {/* <Box sx={{ width: 1000, margin: "0 auto", mb: 4 }}><canvas id="power1" aria-label="Hello ARIA World" role="img"></canvas></Box>
-        <Graph data={data1} canvas={"power1"} scale={"day"} /> */}
-        {/* <Box sx={{ width: 1000, margin: "0 auto", mb: 4 }}><canvas id="power2" aria-label="Hello ARIA World" role="img"></canvas></Box>
-        <Graph data={data2} canvas={"power2"} scale={"month"} /> */}
 
       </Container>
     </div>

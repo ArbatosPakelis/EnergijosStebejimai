@@ -58,7 +58,7 @@ const Graph = forwardRef((props, ref) => {
     // );
 
     useImperativeHandle(ref, () => ({
-        updateData: (newData, title) => {
+        updateData: (newData, timeTitle, dataTitle) => {
             const chartInstance = chartInstanceRef.current;
 
             if (chartInstance) {
@@ -66,8 +66,19 @@ const Graph = forwardRef((props, ref) => {
                 console.log(newData.map(row => row.power));
                 console.log(chartInstance.options.scales.x.title.text);
                 chartInstance.data.labels = newData.map(row => row.time);
-                chartInstance.data.datasets[0].data = newData.map(row => row.power);
-                chartInstance.options.scales.x.title.text = title;
+                if (dataTitle === "Power") {
+                    chartInstance.data.datasets[0].data = newData.map(row => row.power);
+                    chartInstance.data.datasets[0].label = 'vid. galia';
+                    chartInstance.options.scales.x.title.text = timeTitle;
+                    chartInstance.options.scales.y.title.text = 'Vidutinė galia W';  
+                }
+                else if (dataTitle === "Usage")
+                {
+                    chartInstance.data.datasets[0].data = newData.map(row => row.usage);
+                    chartInstance.data.datasets[0].label = 'sąnaudos';
+                    chartInstance.options.scales.x.title.text = timeTitle;
+                    chartInstance.options.scales.y.title.text = 'Sąnaudos kWh'; 
+                }
                 //chartInstance.options.scales.x.title
                 chartInstance.update();
             }
@@ -115,7 +126,7 @@ const Graph = forwardRef((props, ref) => {
                         y: {
                             title: {
                                 display: true,
-                                text: 'Vidutinė galia'
+                                text: 'Vidutinė galia W'
                             }
                         }
                     }

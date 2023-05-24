@@ -213,7 +213,7 @@ app.get('/getHourGraph', (req, res) => {
         const month = date.getMonth() + 1;
         const day = date.getDate();
 
-        connection.query('SELECT hour(laikas) as hour, AVG(galia) as power FROM irasai INNER JOIN (sensorius INNER JOIN patalpa ON patalpa.id = sensorius.id_patalpa) ON sensorius.id = irasai.id_sensorius WHERE patalpa.id = ? AND year(laikas) = ? AND month(laikas) = ? and day(laikas) = ? GROUP BY hour(laikas) ORDER BY hour ASC',
+        connection.query('SELECT hour(laikas) as hour, AVG(galia) as power, SUM(sanaudos) as usg FROM irasai INNER JOIN (sensorius INNER JOIN patalpa ON patalpa.id = sensorius.id_patalpa) ON sensorius.id = irasai.id_sensorius WHERE patalpa.id = ? AND year(laikas) = ? AND month(laikas) = ? and day(laikas) = ? GROUP BY hour(laikas) ORDER BY hour ASC',
             [req.query.id, year, month, day], (err, rows) => {
                 connection.release() // return the connection to pool
 
@@ -225,7 +225,8 @@ app.get('/getHourGraph', (req, res) => {
                     if (rows.length > listCounter && rows[listCounter].hour == i) {
                         let myObject = {
                             time: i,
-                            power: rows[listCounter].power
+                            power: rows[listCounter].power,
+                            usage: rows[listCounter].usg
                         };
                         //console.log(myObject);
                         myArray.push(myObject);
@@ -234,7 +235,8 @@ app.get('/getHourGraph', (req, res) => {
                     else {
                         let myObject = {
                             time: i,
-                            power: 0
+                            power: 0,
+                            usage: 0
                         };
                         //console.log(myObject);
                         myArray.push(myObject);
@@ -262,7 +264,7 @@ app.get('/getDayGraph', (req, res) => {
         const year = date.getFullYear();
         const month = date.getMonth() + 1;
 
-        connection.query('SELECT day(laikas) as day, AVG(galia) as power FROM irasai INNER JOIN (sensorius INNER JOIN patalpa ON patalpa.id = sensorius.id_patalpa) ON sensorius.id = irasai.id_sensorius WHERE patalpa.id = ? AND year(laikas) = ? AND month(laikas) = ? GROUP BY day(laikas) ORDER BY day ASC',
+        connection.query('SELECT day(laikas) as day, AVG(galia) as power, SUM(sanaudos) as usg FROM irasai INNER JOIN (sensorius INNER JOIN patalpa ON patalpa.id = sensorius.id_patalpa) ON sensorius.id = irasai.id_sensorius WHERE patalpa.id = ? AND year(laikas) = ? AND month(laikas) = ? GROUP BY day(laikas) ORDER BY day ASC',
             [req.query.id, year, month], (err, rows) => {
                 connection.release() // return the connection to pool
 
@@ -273,7 +275,8 @@ app.get('/getDayGraph', (req, res) => {
                     if (rows.length > listCounter && rows[listCounter].day == i) {
                         let myObject = {
                             time: i,
-                            power: rows[listCounter].power
+                            power: rows[listCounter].power,
+                            usage: rows[listCounter].usg
                         };
                         //console.log(myObject);
                         myArray.push(myObject);
@@ -282,7 +285,8 @@ app.get('/getDayGraph', (req, res) => {
                     else {
                         let myObject = {
                             time: i,
-                            power: 0
+                            power: 0,
+                            usage: 0
                         };
                         //console.log(myObject);
                         myArray.push(myObject);
@@ -309,7 +313,7 @@ app.get('/getMonthGraph', (req, res) => {
         const date = new Date(req.query.date);
         const year = date.getFullYear();
 
-        connection.query('SELECT month(laikas) as month, AVG(galia) as power FROM irasai INNER JOIN (sensorius INNER JOIN patalpa ON patalpa.id = sensorius.id_patalpa) ON sensorius.id = irasai.id_sensorius WHERE patalpa.id = ? AND year(laikas) = ? GROUP BY month(laikas) ORDER BY month ASC',
+        connection.query('SELECT month(laikas) as month, AVG(galia) as power, SUM(sanaudos) as usg FROM irasai INNER JOIN (sensorius INNER JOIN patalpa ON patalpa.id = sensorius.id_patalpa) ON sensorius.id = irasai.id_sensorius WHERE patalpa.id = ? AND year(laikas) = ? GROUP BY month(laikas) ORDER BY month ASC',
             [req.query.id, year], (err, rows) => {
                 connection.release() // return the connection to pool
 
@@ -321,7 +325,8 @@ app.get('/getMonthGraph', (req, res) => {
                     if (rows.length > listCounter && rows[listCounter].month == i) {
                         let myObject = {
                             time: i,
-                            power: rows[listCounter].power
+                            power: rows[listCounter].power,
+                            usage: rows[listCounter].usg
                         };
                         console.log(myObject);
                         myArray.push(myObject);
@@ -330,7 +335,8 @@ app.get('/getMonthGraph', (req, res) => {
                     else {
                         let myObject = {
                             time: i,
-                            power: 0
+                            power: 0,
+                            usage: 0
                         };
                         console.log(myObject);
                         myArray.push(myObject);

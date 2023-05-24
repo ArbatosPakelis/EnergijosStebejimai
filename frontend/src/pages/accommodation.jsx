@@ -1,7 +1,7 @@
 import Header from "../components/header";
 import React, { useRef } from 'react';
 import { useEffect, useState } from "react";
-import { Button, Typography } from "@mui/material";
+import { Button, Typography, ButtonGroup } from "@mui/material";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import accommodationApi from "../Apis/accommodationApi";
 import graphApi from "../Apis/graphApi";
@@ -31,6 +31,10 @@ export default function Accommondation() {
     const [entries, setEntries] = useState([]);
     const navigate = useNavigate();
     const chartRef = useRef();
+    const [disabledPower, setDisabledPower] = React.useState(true);
+    const [disabledUsage, setDisabledUsage] = React.useState(false);
+      
+
     let dayTemp = 0;
 
     useEffect(() => {
@@ -132,6 +136,19 @@ export default function Accommondation() {
         }
     }
 
+    function graphDataButtonHandle(dataTitle) {
+        if (dataTitle === "Power") {
+            setDisabledPower(true);
+            setDisabledUsage(false);
+            chartRef.current.updateData(entries, 'Diena', "Power");
+
+        } else if (dataTitle === "Usage") {
+            setDisabledPower(false);
+            setDisabledUsage(true);
+            chartRef.current.updateData(entries, 'Diena', "Usage");
+        }
+    }
+
     let occupiedDays = emptyDays();
 
     return (
@@ -181,6 +198,10 @@ export default function Accommondation() {
                         </List>
                     </Box>)}
                 <Typography sx={{ textAlign: "center" }}>Šiandienos momentinių enegijos sąnaudų diagrama</Typography>
+                <ButtonGroup variant="contained" aria-label="outlined primary button group">
+                    <Button disabled={disabledPower} onClick={() => graphDataButtonHandle("Power")}>Galia</Button>
+                    <Button disabled={disabledUsage} onClick={() => graphDataButtonHandle("Usage")}>Sąnaudos</Button>
+                </ButtonGroup>
                 <Graph ref={chartRef} data={entries} scale={"Valanda"} />
 
                 {/* <DevicesTable data1={data1} navigate={navigate} setData1={setData1} /> */}
