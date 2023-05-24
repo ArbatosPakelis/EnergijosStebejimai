@@ -94,7 +94,7 @@ const timeZone = 'Europe/Bucharest';
         if (err) throw err
         // let query = `SELECT count(*) as amount FROM ispejimas WHERE data >= DATE_FORMAT('${formattedOneHourAgo}', '%Y-%m-%d %H:%i:%s') AND data <= DATE_FORMAT('${formattedCurrentTime}', '%Y-%m-%d %H:%i:%s')`;
         let query = `SELECT TIME_FORMAT(ispejimas.data, "%H:%i") as laikas, ispejimas.galios_virsyjimas, patalpa.pavadinimas FROM ispejimas 
-            RIGHT JOIN patalpa ON patalpa.id = ispejimas.id_patalpa 
+            INNER JOIN patalpa ON patalpa.id = ispejimas.id_patalpa 
             WHERE ispejimas.data >= DATE_FORMAT('${formattedOneHourAgo}', '%Y-%m-%d %H:%i:%s') 
             AND ispejimas.data <= DATE_FORMAT('${formattedCurrentTime}', '%Y-%m-%d %H:%i:%s')`;
 
